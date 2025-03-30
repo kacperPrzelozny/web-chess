@@ -1,5 +1,7 @@
 import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
+import {Move} from "../Moves/Move";
+import {Board} from "../Board";
 
 export class Pawn extends Piece
 {
@@ -91,8 +93,62 @@ export class Pawn extends Piece
         }
     ]
 
-    allowedMoves(): Array<string> {
-        return [""];
+    getAllowedMoves(): Array<Move> {
+        let moves = [];
+
+        let direction: number = this.color === ColorType.White ? 1 : -1
+
+        if ((direction == 1 && this.position.y === 2) || (direction == -1 && this.position.y === 7)) {
+            let doubleMove = new Move(
+                this.position.x,
+                this.position.y + (2 * direction),
+                false,
+                false,
+                false,
+                false,
+                true,
+                false
+            );
+            moves.push(doubleMove);
+        }
+
+        let defaultMove = new Move(
+            this.position.x,
+            this.position.y + direction,
+            false,
+            false,
+            false,
+            false,
+            true,
+            false
+        )
+        moves.push(defaultMove);
+
+        let captureMoveLeft = new Move(
+            Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1],
+            this.position.y + direction,
+            true,
+            false,
+            true,
+            false,
+            false,
+            false,
+        )
+        let captureMoveRight = new Move(
+            Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1],
+            this.position.y + direction,
+            true,
+            false,
+            true,
+            false,
+            false,
+            false,
+        )
+
+        moves.push(captureMoveLeft);
+        moves.push(captureMoveRight);
+
+        return moves;
     }
 
     generatePieceName(): string {

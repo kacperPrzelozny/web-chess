@@ -1,5 +1,6 @@
 import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
+import {Move} from "../Moves/Move";
 
 export class Bishop extends Piece
 {
@@ -31,8 +32,8 @@ export class Bishop extends Piece
         }
     ]
 
-    allowedMoves(): Array<string> {
-        return [""];
+    getAllowedMoves(): Array<Move> {
+        return this.generateDiagonalMoves();
     }
 
     generatePieceName(): string {

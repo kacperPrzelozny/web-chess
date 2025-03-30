@@ -1,5 +1,6 @@
 import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
+import {Move} from "../Moves/Move";
 
 export class Queen extends Piece
 {
@@ -21,8 +22,8 @@ export class Queen extends Piece
         }
     ]
 
-    allowedMoves(): Array<string> {
-        return [""];
+    getAllowedMoves(): Array<Move> {
+        return this.generateRowAndColumnMoves().concat(this.generateDiagonalMoves());
     }
 
     generatePieceName(): string {

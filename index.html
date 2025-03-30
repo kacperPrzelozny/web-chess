@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Szachownica</title>
+    <title>Web Chess game</title>
     <style>
         body {
             margin-left: 100px;
@@ -55,6 +55,7 @@
         }
 
         .square {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -71,6 +72,27 @@
         .black {
             background-color: #b58863;
             color: white;
+        }
+
+        .move-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 60px;
+            opacity: 0.5;
+        }
+
+        .piece-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 60px;
+        }
+
+        #scoreboard-container {
+            margin: 30px;
         }
     </style>
 </head>

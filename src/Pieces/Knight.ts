@@ -1,5 +1,7 @@
 import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
+import {Move} from "../Moves/Move";
+import {Board} from "../Board";
 
 export class Knight extends Piece
 {
@@ -31,8 +33,19 @@ export class Knight extends Piece
         }
     ]
 
-    allowedMoves(): Array<string> {
-        return [""];
+    getAllowedMoves(): Array<Move> {
+        let moves: Array<Move> = [];
+
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 2], this.position.y + 1, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 2], this.position.y - 1, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 2], this.position.y + 1, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 2], this.position.y - 1, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y + 2, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y - 2, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y + 2, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y - 2, false, true));
+
+        return moves;
     }
 
     generatePieceName(): string {

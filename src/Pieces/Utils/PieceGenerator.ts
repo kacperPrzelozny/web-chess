@@ -1,13 +1,13 @@
-import {ColorType} from "./Utils/Colors";
-import {PieceType} from "./Utils/PieceType";
-import {Pawn} from "./Pawn";
-import {Piece} from "./Piece";
-import {Bishop} from "./Bishop";
-import {Knight} from "./Knight";
-import {Rook} from "./Rook";
-import {Queen} from "./Queen";
-import {King} from "./King";
-import {Board} from "../Board";
+import {ColorType} from "./Colors";
+import {PieceType} from "./PieceType";
+import {Pawn} from "../Pawn";
+import {Piece} from "../Piece";
+import {Bishop} from "../Bishop";
+import {Knight} from "../Knight";
+import {Rook} from "../Rook";
+import {Queen} from "../Queen";
+import {King} from "../King";
+import {Board} from "../../Board";
 
 export class PieceGenerator
 {

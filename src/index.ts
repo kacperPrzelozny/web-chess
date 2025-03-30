@@ -1,4 +1,4 @@
-import { Board } from "./Board";
+import {Board} from "./Board";
 
-const board = new Board();
+let board = new Board()
 board.buildChessBoard()

@@ -1,8 +1,7 @@
 import {Piece} from "./Pieces/Piece";
-import {Pawn} from "./Pieces/Pawn";
-import {PieceType} from "./Pieces/Utils/PieceType";
+import {PieceGenerator} from "./Pieces/Utils/PieceGenerator";
+import {PossibleMoves} from "./Moves/PossibleMoves"
 import {ColorType} from "./Pieces/Utils/Colors";
-import {PieceGenerator} from "./Pieces/PieceGenerator";
 
 export class Board
 {
@@ -11,6 +10,7 @@ export class Board
 
     public whitePieces: Array<Piece> = [];
     public blackPieces: Array<Piece> = [];
+    public currentTurn: ColorType = ColorType.White;
 
     public constructor() {
         this.createInitialPosition()
@@ -61,11 +61,27 @@ export class Board
                 }
 
                 let piece: Piece | null = this.findPiece(x, y);
-                if (piece) {
+                if (piece !== null) {
                     let img = document.createElement("img");
                     img.src = "assets/images/pieces/" + piece.generatePieceName() + ".png";
+                    img.alt = piece.generatePieceName();
+                    img.classList.add("piece-img");
+
+                    piece.icon = img
+
+                    img.addEventListener("click", () => {
+                        if (this.currentTurn !== piece.color) {
+                            return;
+                        }
+                        let possibleMoves = new PossibleMoves(this, piece);
+                        possibleMoves.checkPossibleMoves()
+                    })
+
                     square.appendChild(img);
                 }
+
+                square.dataset.x = x;
+                square.dataset.y = String(y);
 
                 boardContainer.appendChild(square);
             }
@@ -74,14 +90,7 @@ export class Board
         boardContainer.appendChild(xLabelRow);
     }
 
-    // region Private
-
-    private createInitialPosition(): void {
-        let pieceGenerator = new PieceGenerator(this);
-        pieceGenerator.generate()
-    }
-
-    private findPiece(x: string, y: number): Piece | null {
+    public findPiece(x: string, y: number): Piece | null {
         for (let piece of this.whitePieces) {
             if (piece.position.x === x && piece.position.y === y) {
                 return piece;
@@ -95,6 +104,31 @@ export class Board
         }
 
         return null;
+    }
+
+    public removePiece(piece: Piece): void {
+        if (piece.color === ColorType.White) {
+            for (let i = 0; i < this.whitePieces.length; i++) {
+                let whitePiece = this.whitePieces[i];
+                if (whitePiece.position === piece.position) {
+                    this.whitePieces.splice(i, 1);
+                }
+            }
+        } else {
+            for (let i = 0; i < this.blackPieces.length; i++) {
+                let blackPiece = this.blackPieces[i];
+                if (blackPiece.position.x === piece.position.x && blackPiece.position.y === piece.position.y) {
+                    this.blackPieces.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    // region Private
+
+    private createInitialPosition(): void {
+        let pieceGenerator = new PieceGenerator(this);
+        pieceGenerator.generate()
     }
 
     // endregion

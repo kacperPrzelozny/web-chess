@@ -1,5 +1,6 @@
 import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
+import {Move} from "../Moves/Move";
 
 export class Rook extends Piece
 {
@@ -31,8 +32,8 @@ export class Rook extends Piece
         }
     ]
 
-    allowedMoves(): Array<string> {
-        return [""];
+    getAllowedMoves(): Array<Move> {
+        return this.generateRowAndColumnMoves();
     }
 
     generatePieceName(): string {
