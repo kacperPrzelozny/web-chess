@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szachownica</title>
+    <style>
+        body {
+            margin-left: 100px;
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        #chessboard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        #chessboard {
+            display: grid;
+            grid-template-columns: repeat(8, 60px);
+            grid-template-rows: repeat(8, 60px);
+            gap: 0;
+            width: 480px;
+            height: 480px;
+        }
+
+        #labels {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            left: -60px;
+            top: 0;
+        }
+
+        .label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            font-size: 18px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .x-labels {
+            display: flex;
+            width: 480px;
+            justify-content: center;
+        }
+
+        .square {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .white {
+            background-color: #f0d9b5;
+        }
+
+        .black {
+            background-color: #b58863;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div id="chessboard-container">
+    <div id="labels"></div>
+    <div id="chessboard"></div>
+    <div id="x-labels"></div>
+</div>
+<div id="scoreboard-container">
+    
+</div>
+
+<script src="dist/bundle.js"></script>
+</body>
+</html>
