@@ -2,6 +2,9 @@ import {Move} from "./Move";
 import {Board} from "../Board";
 import {Piece} from "../Pieces/Piece";
 import {PieceFinder} from "../Pieces/PieceFinder";
+import {PieceType} from "../Pieces/Utils/PieceType";
+import {ColorType} from "../Pieces/Utils/Colors";
+import {Position} from "../Pieces/Utils/Position";
 
 export class MoveChecker
 {
@@ -23,6 +26,10 @@ export class MoveChecker
         }
 
         if (this.move.isCapture && foundPiece !== null && this.piece.color === foundPiece.color) {
+            return false;
+        }
+
+        if (this.move.isCastling && !this.checkCastleMove()) {
             return false;
         }
 
@@ -104,5 +111,44 @@ export class MoveChecker
             }
         }
         return true;
+    }
+
+    public checkCastleMove(): boolean {
+        if (this.piece.hasAlreadyMoved) {
+            return false;
+        }
+
+        if (this.piece.type !== PieceType.King) {
+            return false;
+        }
+
+        const y: 8 | 1 = this.piece.color === ColorType.White ? 1 : 8;
+
+        // true - left, false - right
+        const xDirection: boolean = Board.xAxis.indexOf(this.piece.position.x) > Board.xAxis.indexOf(this.move.x);
+        const x = xDirection ? "A" : "H"
+
+        const rook: Piece | null = PieceFinder.find(this.pieces, x, y);
+        if (rook === null || rook.type !== PieceType.Rook || rook.hasAlreadyMoved) {
+            return false;
+        }
+
+        return this.isEmptyBetweenPositions(this.piece.position, rook.position);
+    }
+
+    public isEmptyBetweenPositions(position1: Position, position2: Position): boolean {
+        const y = position1.y
+
+        const start = Board.xAxis.indexOf(Board.xAxis.indexOf(position1.x) > Board.xAxis.indexOf(position2.x) ? position2.x : position1.x);
+        const end = Board.xAxis.indexOf(Board.xAxis.indexOf(position1.x) > Board.xAxis.indexOf(position2.x) ? position1.x : position2.x);
+
+        for (let i = start + 1; i < end; i++) {
+            const piece = PieceFinder.find(this.pieces, Board.xAxis[i], y)
+            if (piece !== null) {
+                return false;
+            }
+        }
+
+        return true
     }
 }

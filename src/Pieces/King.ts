@@ -23,14 +23,19 @@ export class King extends Piece
     public getPossibleMoves(): Array<Move> {
         let moves: Array<Move> = [];
 
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y, false, false, false, true, false));
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y + 1, false, false, true, false, false));
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y - 1, false, false, true, false, false));
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x)], this.position.y + 1, false, false, false, false, true));
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x)], this.position.y - 1, false, false, false, false, true));
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y, false, false, false, true, false));
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y + 1, false, false, true, true, false));
-        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y - 1, false, false, true, true, false));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y, false, false, false, true, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y + 1, false, false, true, false, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y - 1, false, false, true, false, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x)], this.position.y + 1, false, false, false, false, true, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x)], this.position.y - 1, false, false, false, false, true, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y, false, false, false, true, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y + 1, false, false, true, true, false, true));
+        moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y - 1, false, false, true, true, false, true));
+
+        if (!this.hasAlreadyMoved) {
+            moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 2], this.position.y, false, false, false, true, false, true, true));
+            moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 2], this.position.y, false, false, false, true, false, true, true));
+        }
 
         return moves;
     }

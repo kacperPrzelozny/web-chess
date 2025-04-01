@@ -2,16 +2,20 @@ import {Position} from "./Utils/Position";
 import {ColorType} from "./Utils/Colors";
 import {Move} from "../Moves/Move";
 import {Board} from "../Board";
+import {PieceType} from "./Utils/PieceType";
 
 export abstract class Piece
 {
     position: Position;
     color: ColorType;
     icon: HTMLElement | null = null;
+    hasAlreadyMoved: boolean = false;
+    type: PieceType;
 
-    constructor(color: ColorType, x: string, y: number) {
+    constructor(color: ColorType, x: string, y: number, pieceType: PieceType) {
         this.color = color;
         this.position = new Position(x, y)
+        this.type = pieceType
     }
 
     public getPossibleMoves(): Array<Move> {

@@ -4,6 +4,7 @@ import {Move} from "./Move";
 import {MoveChecker} from "./MoveChecker";
 import {ColorType} from "../Pieces/Utils/Colors";
 import {PieceFinder} from "../Pieces/PieceFinder";
+import {Board} from "../Board";
 
 export class MoveManager
 {
@@ -35,8 +36,26 @@ export class MoveManager
             this.removePiece(capturedPiece);
         }
 
+        if (move.isCastling) {
+            this.moveRookInCastle(piece, move);
+        }
+
         piece.position.x = move.x;
         piece.position.y = move.y;
+        piece.hasAlreadyMoved = true;
+    }
+
+    public moveRookInCastle(piece: Piece, move: Move): void {
+        const y: 8 | 1 = piece.color === ColorType.White ? 1 : 8;
+
+        // true - left, false - right
+        const xDirection: boolean = Board.xAxis.indexOf(piece.position.x) > Board.xAxis.indexOf(move.x);
+        const x = xDirection ? "A" : "H"
+
+        const rook: Piece | null = PieceFinder.find(this.pieces, x, y);
+        if (rook !== null) {
+            rook.position.x = xDirection ? "D" : "F";
+        }
     }
 
     public removePiece(piece: Piece): void {

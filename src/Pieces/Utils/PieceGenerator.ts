@@ -55,22 +55,22 @@ export class PieceGenerator
 
             switch (type) {
                 case PieceType.Pawn:
-                    piece = new Pawn(object.color, object.x, object.y);
+                    piece = new Pawn(object.color, object.x, object.y, type);
                     break;
                 case PieceType.Bishop:
-                    piece = new Bishop(object.color, object.x, object.y);
+                    piece = new Bishop(object.color, object.x, object.y, type);
                     break;
                 case PieceType.Knight:
-                    piece = new Knight(object.color, object.x, object.y);
+                    piece = new Knight(object.color, object.x, object.y, type);
                     break;
                 case PieceType.Rook:
-                    piece = new Rook(object.color, object.x, object.y);
+                    piece = new Rook(object.color, object.x, object.y, type);
                     break;
                 case PieceType.Queen:
-                    piece = new Queen(object.color, object.x, object.y);
+                    piece = new Queen(object.color, object.x, object.y, type);
                     break;
                 case PieceType.King:
-                    piece = new King(object.color, object.x, object.y);
+                    piece = new King(object.color, object.x, object.y, type);
                     break;
                 default:
                     throw new Error("Invalid type " + type);
