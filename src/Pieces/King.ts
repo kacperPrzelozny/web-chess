@@ -7,23 +7,20 @@ export class King extends Piece
 {
     public static readonly NAME = "king";
 
-    public static initialWhitePosition: Array<{ color: ColorType; x: string; y: number }> = [
+    public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [
         {
             color: ColorType.White,
             x: 'E',
             y: 1
-        }
-    ];
-
-    public static initialBlackPosition: Array<{ color: ColorType; x: string; y: number }> = [
+        },
         {
             color: ColorType.Black,
             x: 'E',
             y: 8
         }
-    ]
+    ];
 
-    getAllowedMoves(): Array<Move> {
+    public getPossibleMoves(): Array<Move> {
         let moves: Array<Move> = [];
 
         moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1], this.position.y, false, false, false, true, false));

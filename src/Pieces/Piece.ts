@@ -14,7 +14,7 @@ export abstract class Piece
         this.position = new Position(x, y)
     }
 
-    getAllowedMoves(): Array<Move> {
+    public getPossibleMoves(): Array<Move> {
         return [];
     };
 

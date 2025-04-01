@@ -7,80 +7,45 @@ import {Knight} from "../Knight";
 import {Rook} from "../Rook";
 import {Queen} from "../Queen";
 import {King} from "../King";
-import {Board} from "../../Board";
 
 export class PieceGenerator
 {
-    public board: Board;
-
-    constructor(board: Board) {
-        this.board = board;
-    }
-
-    public generate(): void
+    public generateInitialPositions(): Array<Piece>
     {
-        this.generatePawns();
-        this.generateBishops();
-        this.generateKnights();
-        this.generateRooks();
-        this.generateQueens();
-        this.generateKings();
+        let pieces: Array<Piece> = [];
+
+        pieces.push(...this.generatePawns());
+        pieces.push(...this.generateBishops());
+        pieces.push(...this.generateKnights());
+        pieces.push(...this.generateRooks());
+        pieces.push(...this.generateKings());
+        pieces.push(...this.generateQueens());
+
+        return pieces;
     }
 
-    private generatePieces(blacks: Array<{color: ColorType, x: string, y: number}>, whites: Array<{color: ColorType, x: string, y: number}>, type: PieceType): void {
-        let blackPieces: Array<Pawn> = this.generatePiecesObjects(blacks, type);
-        let whitePieces: Array<Pawn> = this.generatePiecesObjects(whites, type);
-
-        this.board.blackPieces.push(...blackPieces)
-        this.board.whitePieces.push(...whitePieces);
+    private generatePawns(): Array<Pawn> {
+        return this.generatePiecesObjects(Pawn.initialPositions, PieceType.Pawn)
     }
 
-    private generatePawns(): void {
-        this.generatePieces(
-            Pawn.initialBlackPosition,
-            Pawn.initialWhitePosition,
-            PieceType.Pawn
-        )
+    private generateBishops(): Array<Bishop> {
+        return this.generatePiecesObjects(Bishop.initialPositions, PieceType.Bishop)
     }
 
-    private generateBishops(): void {
-        this.generatePieces(
-            Bishop.initialBlackPosition,
-            Bishop.initialWhitePosition,
-            PieceType.Bishop
-        )
+    private generateKnights(): Array<Knight> {
+        return this.generatePiecesObjects(Knight.initialPositions, PieceType.Knight)
     }
 
-    private generateKnights(): void {
-        this.generatePieces(
-            Knight.initialBlackPosition,
-            Knight.initialWhitePosition,
-            PieceType.Knight
-        )
+    private generateRooks(): Array<Rook> {
+        return this.generatePiecesObjects(Rook.initialPositions, PieceType.Rook)
     }
 
-    private generateRooks(): void {
-        this.generatePieces(
-            Rook.initialBlackPosition,
-            Rook.initialWhitePosition,
-            PieceType.Rook
-        )
+    private generateQueens(): Array<Queen> {
+        return this.generatePiecesObjects(Queen.initialPositions, PieceType.Queen)
     }
 
-    private generateQueens(): void {
-        this.generatePieces(
-            Queen.initialBlackPosition,
-            Queen.initialWhitePosition,
-            PieceType.Queen
-        )
-    }
-
-    private generateKings(): void {
-        this.generatePieces(
-            King.initialBlackPosition,
-            King.initialWhitePosition,
-            PieceType.King
-        )
+    private generateKings(): Array<King> {
+        return this.generatePiecesObjects(King.initialPositions, PieceType.King)
     }
 
     private generatePiecesObjects(initialPositions: Array<{color: ColorType, x: string, y: number}>, type: PieceType): Array<Piece> {

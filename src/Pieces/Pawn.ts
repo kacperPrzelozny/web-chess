@@ -7,7 +7,7 @@ export class Pawn extends Piece
 {
     public static readonly NAME = "pawn";
 
-    public static initialWhitePosition : Array<{color: ColorType, x: string, y: number}> = [
+    public static initialPositions : Array<{color: ColorType, x: string, y: number}> = [
         {
             color: ColorType.White,
             x: 'A',
@@ -47,53 +47,50 @@ export class Pawn extends Piece
             color: ColorType.White,
             x: 'H',
             y: 2
+        },
+        {
+            color: ColorType.Black,
+            x: 'A',
+            y: 7
+        },
+        {
+            color: ColorType.Black,
+            x: 'B',
+            y: 7
+        },
+        {
+            color: ColorType.Black,
+            x: 'C',
+            y: 7
+        },
+        {
+            color: ColorType.Black,
+            x: 'D',
+            y: 7
+        },
+        {
+            color: ColorType.Black,
+            x: 'E',
+            y: 7
+        },
+        {
+            color: ColorType.Black,
+            x: 'F',
+            y: 7
+        },
+        {
+            color: ColorType.Black,
+            x: 'G',
+            y: 7
+        },
+        {
+            color: ColorType.Black,
+            x: 'H',
+            y: 7
         }
     ];
 
-    public static initialBlackPosition: Array<{ color: ColorType; x: string; y: number }> = [
-        {
-            color: ColorType.Black,
-            x: 'A',
-            y: 7
-        },
-        {
-            color: ColorType.Black,
-            x: 'B',
-            y: 7
-        },
-        {
-            color: ColorType.Black,
-            x: 'C',
-            y: 7
-        },
-        {
-            color: ColorType.Black,
-            x: 'D',
-            y: 7
-        },
-        {
-            color: ColorType.Black,
-            x: 'E',
-            y: 7
-        },
-        {
-            color: ColorType.Black,
-            x: 'F',
-            y: 7
-        },
-        {
-            color: ColorType.Black,
-            x: 'G',
-            y: 7
-        },
-        {
-            color: ColorType.Black,
-            x: 'H',
-            y: 7
-        }
-    ]
-
-    getAllowedMoves(): Array<Move> {
+    public getPossibleMoves(): Array<Move> {
         let moves = [];
 
         let direction: number = this.color === ColorType.White ? 1 : -1

@@ -6,7 +6,7 @@ export class Bishop extends Piece
 {
     public static readonly NAME = "bishop";
 
-    public static initialWhitePosition: Array<{ color: ColorType; x: string; y: number }> = [
+    public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [
         {
             color: ColorType.White,
             x: 'F',
@@ -16,23 +16,20 @@ export class Bishop extends Piece
             color: ColorType.White,
             x: 'C',
             y: 1
+        },
+        {
+            color: ColorType.Black,
+            x: 'F',
+            y: 8
+        },
+        {
+            color: ColorType.Black,
+            x: 'C',
+            y: 8
         }
     ];
 
-    public static initialBlackPosition: Array<{ color: ColorType; x: string; y: number }> = [
-        {
-            color: ColorType.Black,
-            x: 'F',
-            y: 8
-        },
-        {
-            color: ColorType.Black,
-            x: 'C',
-            y: 8
-        }
-    ]
-
-    getAllowedMoves(): Array<Move> {
+    public getPossibleMoves(): Array<Move> {
         return this.generateDiagonalMoves();
     }
 

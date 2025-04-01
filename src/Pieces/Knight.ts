@@ -7,7 +7,7 @@ export class Knight extends Piece
 {
     public static readonly NAME = "knight";
 
-    public static initialWhitePosition: Array<{ color: ColorType; x: string; y: number }> = [
+    public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [
         {
             color: ColorType.White,
             x: 'B',
@@ -17,23 +17,20 @@ export class Knight extends Piece
             color: ColorType.White,
             x: 'G',
             y: 1
+        },
+        {
+            color: ColorType.Black,
+            x: 'B',
+            y: 8
+        },
+        {
+            color: ColorType.Black,
+            x: 'G',
+            y: 8
         }
     ];
 
-    public static initialBlackPosition: Array<{ color: ColorType; x: string; y: number }> = [
-        {
-            color: ColorType.Black,
-            x: 'B',
-            y: 8
-        },
-        {
-            color: ColorType.Black,
-            x: 'G',
-            y: 8
-        }
-    ]
-
-    getAllowedMoves(): Array<Move> {
+    public getPossibleMoves(): Array<Move> {
         let moves: Array<Move> = [];
 
         moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 2], this.position.y + 1, false, true));
