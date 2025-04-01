@@ -24,6 +24,14 @@ export class Board
         this.buildChessBoard()
     }
 
+    public movePiece(piece: Piece, move: Move): void {
+        this.changeTurn();
+
+        this.moveManager.move(piece, move);
+
+        this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)
+    }
+
     // region Private
 
     private buildChessBoard() {
@@ -33,9 +41,7 @@ export class Board
 
     private pieceClickedAction(board: Board, piece: Piece)
     {
-        console.log("Board:", board);
         if (piece.color !== board.currentTurn) {
-            console.log("piece color:", piece.color);
             return;
         }
 
@@ -46,14 +52,6 @@ export class Board
 
     private moveClickedAction(board: Board, piece: Piece, move: Move): void {
         board.movePiece(piece, move);
-    }
-
-    public movePiece(piece: Piece, move: Move): void {
-        this.changeTurn();
-
-        this.moveManager.move(piece, move);
-
-        this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)
     }
 
     private createInitialPosition(): void {
