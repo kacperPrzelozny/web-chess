@@ -16,8 +16,8 @@ export class MoveGenerator
 
     public mapCaptureMoves(possibleMoves: Array<Move>, piece: Piece): Array<Move> {
         return possibleMoves.map((move: Move) => {
-            let piece: Piece | null = PieceFinder.find(this.pieces, move.x, move.y);
-            if (piece !== null && piece.color !== piece.color && move.canChangeCapture) {
+            let foundPiece: Piece | null = PieceFinder.find(this.pieces, move.x, move.y);
+            if (foundPiece !== null && foundPiece.color !== piece.color && move.canChangeCapture) {
                 move.isCapture = true;
             }
 

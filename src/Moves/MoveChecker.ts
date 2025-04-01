@@ -8,8 +8,7 @@ export class MoveChecker
     constructor(public pieces: Array<Piece>, public piece: Piece, public move: Move) {
     }
 
-    public checkMove()
-    {
+    public checkMove(): boolean {
         if (this.move.x === undefined || this.move.y === undefined || this.move.y > 8 || this.move.y < 1) {
             return false;
         }
@@ -83,27 +82,23 @@ export class MoveChecker
     }
 
     public checkDiagonal(): boolean {
-        let startX:number;
+        const deltaX = Math.abs(Board.xAxis.indexOf(this.piece.position.x) - Board.xAxis.indexOf(this.move.x));
+        const deltaY = Math.abs(this.piece.position.y - this.move.y);
 
-        let startY:number;
-        let endY:number;
-
-        if (Board.xAxis.indexOf(this.piece.position.x) > Board.xAxis.indexOf(this.move.x)) {
-            startX = Board.xAxis.indexOf(this.move.x);
-        } else {
-            startX = Board.xAxis.indexOf(this.piece.position.x);
+        if (deltaX !== deltaY) {
+            return false;
         }
 
-        if (this.piece.position.y > this.move.y) {
-            startY = this.move.y;
-            endY = this.piece.position.y;
-        } else {
-            startY = this.piece.position.y;
-            endY = this.move.y;
-        }
+        const stepX = this.piece.position.x < this.move.x ? 1 : -1;
+        const stepY = this.piece.position.y < this.move.y ? 1 : -1;
 
-        for (let i = 1; i < endY - startY; i++) {
-            let piece = PieceFinder.find(this.pieces, Board.xAxis[startX + i], startY + i)
+        for (let i = 1; i < deltaX; i++) {
+            let piece = PieceFinder.find(
+                this.pieces,
+                Board.xAxis[Board.xAxis.indexOf(this.piece.position.x) + i * stepX],
+                this.piece.position.y + i * stepY
+            );
+
             if (piece !== null) {
                 return false;
             }

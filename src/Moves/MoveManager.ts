@@ -21,8 +21,8 @@ export class MoveManager
         return this.filterPossibleMoves(moves, piece);
     }
 
-    public filterPossibleMoves(allowedMoves: Array<Move>, piece: Piece): Array<Move> {
-        return allowedMoves.filter((move: Move) => {
+    public filterPossibleMoves(possibleMoves: Array<Move>, piece: Piece): Array<Move> {
+        return possibleMoves.filter((move: Move) => {
             let moveChecker: MoveChecker = new MoveChecker(this.pieces, piece, move);
 
             return moveChecker.checkMove()
@@ -44,6 +44,7 @@ export class MoveManager
             let boardPiece = this.pieces[i];
             if (boardPiece.position.x === piece.position.x && boardPiece.position.y === piece.position.y) {
                 this.pieces.splice(i, 1);
+                break;
             }
         }
     }

@@ -24,7 +24,7 @@ export class Board
         this.buildChessBoard()
     }
 
-    public movePiece(piece: Piece, move: Move): void {
+    private movePiece(piece: Piece, move: Move): void {
         this.changeTurn();
 
         this.moveManager.move(piece, move);
