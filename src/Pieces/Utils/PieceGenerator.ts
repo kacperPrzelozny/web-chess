@@ -51,34 +51,40 @@ export class PieceGenerator
     private generatePiecesObjects(initialPositions: Array<{color: ColorType, x: string, y: number}>, type: PieceType): Array<Piece> {
         let pieces: Array<Piece> = [];
         for (let object of initialPositions) {
-            let piece: Piece;
-
-            switch (type) {
-                case PieceType.Pawn:
-                    piece = new Pawn(object.color, object.x, object.y, type);
-                    break;
-                case PieceType.Bishop:
-                    piece = new Bishop(object.color, object.x, object.y, type);
-                    break;
-                case PieceType.Knight:
-                    piece = new Knight(object.color, object.x, object.y, type);
-                    break;
-                case PieceType.Rook:
-                    piece = new Rook(object.color, object.x, object.y, type);
-                    break;
-                case PieceType.Queen:
-                    piece = new Queen(object.color, object.x, object.y, type);
-                    break;
-                case PieceType.King:
-                    piece = new King(object.color, object.x, object.y, type);
-                    break;
-                default:
-                    throw new Error("Invalid type " + type);
-            }
+            let piece: Piece = this.generatePiece(object.color, object.x, object.y, type)
 
             pieces.push(piece);
         }
 
         return pieces;
+    }
+
+    public generatePiece(color: ColorType, x: string, y: number, type:PieceType): Piece {
+        let piece: Piece;
+
+        switch (type) {
+            case PieceType.Pawn:
+                piece = new Pawn(color, x, y, type);
+                break;
+            case PieceType.Bishop:
+                piece = new Bishop(color, x, y, type);
+                break;
+            case PieceType.Knight:
+                piece = new Knight(color, x, y, type);
+                break;
+            case PieceType.Rook:
+                piece = new Rook(color, x, y, type);
+                break;
+            case PieceType.Queen:
+                piece = new Queen(color, x, y, type);
+                break;
+            case PieceType.King:
+                piece = new King(color, x, y, type);
+                break;
+            default:
+                throw new Error("Invalid type " + type);
+        }
+
+        return piece;
     }
 }

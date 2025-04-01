@@ -4,7 +4,7 @@ import {ColorType} from "./Pieces/Utils/Colors";
 import {MoveManager} from "./Moves/MoveManager";
 import {Move} from "./Moves/Move";
 import {BoardDrawer} from "./BoardDrawer";
-import {PieceFinder} from "./Pieces/PieceFinder";
+import {PieceType} from "./Pieces/Utils/PieceType";
 
 export class Board
 {
@@ -22,14 +22,6 @@ export class Board
         this.moveManager = new MoveManager(this.pieces);
         this.boardDrawer = new BoardDrawer();
         this.buildChessBoard()
-    }
-
-    private movePiece(piece: Piece, move: Move): void {
-        this.changeTurn();
-
-        this.moveManager.move(piece, move);
-
-        this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)
     }
 
     // region Private
@@ -51,7 +43,19 @@ export class Board
     }
 
     private moveClickedAction(board: Board, piece: Piece, move: Move): void {
+        if (piece.type === PieceType.Pawn) {
+            if ((piece.color === ColorType.White && move.y === 8) || (piece.color === ColorType.Black && move.y === 1)) {
+                board.boardDrawer.drawPromotionSelect(board, piece, move, board.promotionSelectedAction)
+                return;
+            }
+        }
         board.movePiece(piece, move);
+    }
+
+    private promotionSelectedAction(board: Board, piece: Piece, move: Move, pieceType: PieceType): void {
+        const newPiece = board.promotePawn(piece, pieceType)
+
+        board.movePiece(newPiece, move);
     }
 
     private createInitialPosition(): void {
@@ -62,5 +66,24 @@ export class Board
     private changeTurn(): void {
         this.currentTurn = this.currentTurn === ColorType.White ? ColorType.Black : ColorType.White;
     }
+
+    private movePiece(piece: Piece, move: Move): void {
+        this.changeTurn();
+
+        this.moveManager.move(piece, move);
+
+        this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)
+    }
+
+    private promotePawn(piece: Piece, pieceType: PieceType): Piece {
+        const pieceGenerator = new PieceGenerator();
+        const promotedPiece = pieceGenerator.generatePiece(piece.color, piece.position.x, piece.position.y, pieceType)
+
+        this.moveManager.removePiece(piece);
+        this.pieces.push(promotedPiece);
+
+        return promotedPiece
+    }
+
     // endregion
 }

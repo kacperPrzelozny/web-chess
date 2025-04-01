@@ -2,6 +2,7 @@ import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
 import {Move} from "../Moves/Move";
 import {Board} from "../Board";
+import {PieceType} from "./Utils/PieceType";
 
 export class Pawn extends Piece
 {
@@ -88,6 +89,13 @@ export class Pawn extends Piece
             x: 'H',
             y: 7
         }
+    ];
+
+    public static canPromoteTo: Array<PieceType> = [
+        PieceType.Knight,
+        PieceType.Bishop,
+        PieceType.Rook,
+        PieceType.Queen,
     ];
 
     public getPossibleMoves(): Array<Move> {

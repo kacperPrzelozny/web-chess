@@ -94,16 +94,39 @@
         #scoreboard-container {
             margin: 30px;
         }
+
+        .extra-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 45px;
+            margin-top: 45px;
+        }
+
+        .game-board {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .game {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
-<div id="chessboard-container">
-    <div id="labels"></div>
-    <div id="chessboard"></div>
-    <div id="x-labels"></div>
-</div>
-<div id="scoreboard-container">
-    
+<div class="game-board">
+    <div class="game">
+        <div id="top-container" class="extra-container"></div>
+
+        <div id="chessboard-container">
+            <div id="labels"></div>
+            <div id="chessboard"></div>
+            <div id="x-labels"></div>
+        </div>
+
+        <div id="bottom-container" class="extra-container"></div>
+    </div>
+    <div id="scoreboard-container"> Aktualny ruch: </div>
 </div>
 
 <script src="dist/bundle.js"></script>
