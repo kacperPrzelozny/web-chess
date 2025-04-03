@@ -8,6 +8,7 @@ import {PieceType} from "./Pieces/Utils/PieceType";
 import {MoveHistory} from "./Moves/History/MoveHistory";
 import {MoveRegistry} from "./Moves/History/MoveRegistry";
 import {Position} from "./Pieces/Utils/Position";
+import {AudioPlayer} from "./AudioPlayer";
 
 export class Board
 {
@@ -20,12 +21,14 @@ export class Board
     public moveManager: MoveManager;
     public moveHistory: MoveHistory;
     public boardDrawer: BoardDrawer;
+    public audioPlayer: AudioPlayer;
 
     public constructor() {
         this.createInitialPosition()
         this.moveManager = new MoveManager(this.pieces);
         this.moveHistory = new MoveHistory();
         this.boardDrawer = new BoardDrawer();
+        this.audioPlayer = new AudioPlayer();
         this.buildChessBoard()
     }
 
@@ -55,12 +58,16 @@ export class Board
             }
         }
         board.movePiece(piece, move);
+
+        board.audioPlayer.playSoundOnMove(move)
     }
 
     private promotionSelectedAction(board: Board, piece: Piece, move: Move, pieceType: PieceType): void {
         const newPiece = board.promotePawn(piece, pieceType)
 
         board.movePiece(newPiece, move);
+
+        board.audioPlayer.playPromotionSound()
     }
 
     private createInitialPosition(): void {
