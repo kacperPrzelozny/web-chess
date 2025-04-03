@@ -9,8 +9,7 @@
             margin-left: 100px;
             display: flex;
             align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
+            background-color: saddlebrown;
         }
 
         #chessboard-container {
@@ -18,50 +17,39 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            width: 675px;
+            height: 675px;
+            background-color: saddlebrown;
         }
 
         #chessboard {
             display: grid;
-            grid-template-columns: repeat(8, 75px);
-            grid-template-rows: repeat(8, 75px);
+            grid-template-columns: repeat(9, 75px);
+            grid-template-rows: repeat(9, 75px);
             gap: 0;
-            width: 600px;
-            height: 600px;
-        }
-
-        #labels {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            left: -75px;
-            top: 0;
-        }
-
-        .label {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 75px;
-            height: 75px;
-            font-size: 18px;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .x-labels {
-            display: flex;
-            width: 600px;
-            justify-content: center;
+            width: 675px;
+            height: 675px;
         }
 
         .square {
             position: relative;
             display: flex;
+            width: 75px;
+            height: 75px;
+            font-size: 24px;
+            color: white;
+            text-align: center;
+        }
+
+        .squareLabel {
+            display: flex;
             justify-content: center;
             align-items: center;
             width: 75px;
             height: 75px;
-            font-size: 18px;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
             text-align: center;
         }
 
@@ -93,13 +81,19 @@
 
         #scoreboard-container {
             margin: 30px;
+            display: flex;
+            align-items: center;
         }
 
         .extra-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 45px;
-            margin-top: 45px;
+            padding-left: 75px;
+            height: 75px;
+        }
+
+        #top-container {
+            margin-bottom: 10px;
         }
 
         .game-board {
@@ -119,9 +113,7 @@
         <div id="top-container" class="extra-container"></div>
 
         <div id="chessboard-container">
-            <div id="labels"></div>
             <div id="chessboard"></div>
-            <div id="x-labels"></div>
         </div>
 
         <div id="bottom-container" class="extra-container"></div>

@@ -15,47 +15,39 @@ export class BoardDrawer
             return;
         }
 
-        const labelsContainer = document.getElementById("labels");
-        if (!labelsContainer) {
-            return;
-        }
-
-        const xLabelRow = document.createElement("div");
-        xLabelRow.classList.add("x-labels");
-
-        for (let x of Board.xAxis) {
-            const label = document.createElement("div");
-            label.classList.add("label");
-            label.textContent = x;
-            xLabelRow.appendChild(label);
-        }
-
         for (let y of Board.yAxis) {
-            const yLabel = document.createElement("div");
-            yLabel.classList.add("label");
-            yLabel.textContent = y.toString();
-            labelsContainer?.appendChild(yLabel);
-        }
+            const labelSquare = document.createElement("div");
+            labelSquare.classList.add("squareLabel");
+            labelSquare.innerHTML = y.toString();
+            boardContainer.appendChild(labelSquare);
 
-        for (let y of Board.yAxis) {
             for (let x of Board.xAxis) {
-                const square = document.createElement("div");
-                square.classList.add("square");
+                const chessSquare = document.createElement("div");
+                chessSquare.classList.add("square");
 
                 if ((Board.xAxis.indexOf(x) + y) % 2 === 0) {
-                    square.classList.add("white");
+                    chessSquare.classList.add("white");
                 } else {
-                    square.classList.add("black");
+                    chessSquare.classList.add("black");
                 }
 
-                square.dataset.x = x;
-                square.dataset.y = String(y);
+                chessSquare.dataset.x = x;
+                chessSquare.dataset.y = String(y);
 
-                boardContainer.appendChild(square);
+                boardContainer.appendChild(chessSquare);
             }
         }
 
-        boardContainer.appendChild(xLabelRow);
+        const emptyLabelSquare = document.createElement("div");
+        emptyLabelSquare.classList.add("squareLabel");
+        boardContainer.appendChild(emptyLabelSquare);
+
+        for (let x of Board.xAxis) {
+            const xLabelSquare = document.createElement("div");
+            xLabelSquare.innerHTML = x;
+            xLabelSquare.classList.add("squareLabel");
+            boardContainer.appendChild(xLabelSquare);
+        }
     }
 
     public drawPieces(board: Board, pieces: Array<Piece>, pieceClickedAction: (board: Board, piece: Piece) => void): void {
