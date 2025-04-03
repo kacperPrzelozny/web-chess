@@ -5,6 +5,7 @@ import {MoveChecker} from "./MoveChecker";
 import {ColorType} from "../Pieces/Utils/Colors";
 import {PieceFinder} from "../Pieces/PieceFinder";
 import {Board} from "../Board";
+import {MoveRegistry} from "./History/MoveRegistry";
 
 export class MoveManager
 {
@@ -17,16 +18,16 @@ export class MoveManager
         this.moveGenerator = new MoveGenerator(this.pieces);
     }
 
-    public getMoves(piece: Piece): Array<Move> {
+    public getMoves(piece: Piece, lastMove: MoveRegistry | null): Array<Move> {
         let moves = this.moveGenerator.getAllPossibleMoves(piece)
-        return this.filterPossibleMoves(moves, piece);
+        return this.filterPossibleMoves(moves, piece, lastMove);
     }
 
-    public filterPossibleMoves(possibleMoves: Array<Move>, piece: Piece): Array<Move> {
+    public filterPossibleMoves(possibleMoves: Array<Move>, piece: Piece, lastMove: MoveRegistry | null): Array<Move> {
         return possibleMoves.filter((move: Move) => {
             let moveChecker: MoveChecker = new MoveChecker(this.pieces, piece, move);
 
-            return moveChecker.checkMove()
+            return moveChecker.checkMove(lastMove)
         })
     }
 
@@ -38,6 +39,13 @@ export class MoveManager
 
         if (move.isCastling) {
             this.moveRookInCastle(piece, move);
+        }
+
+        if (move.isEnPassant) {
+            const foundPiece: Piece | null = PieceFinder.find(this.pieces, move.x, piece.position.y)
+            if (foundPiece !== null) {
+                this.removePiece(foundPiece);
+            }
         }
 
         piece.position.x = move.x;

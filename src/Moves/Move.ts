@@ -10,6 +10,7 @@ export class Move
         public isInColumn: boolean = false,
         public canChangeCapture: boolean = true,
         public isCastling: boolean = false,
+        public isEnPassant: boolean = false,
     ) {
     }
 }

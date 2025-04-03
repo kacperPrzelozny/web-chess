@@ -5,27 +5,33 @@ import {PieceFinder} from "../Pieces/PieceFinder";
 import {PieceType} from "../Pieces/Utils/PieceType";
 import {ColorType} from "../Pieces/Utils/Colors";
 import {Position} from "../Pieces/Utils/Position";
+import {MoveRegistry} from "./History/MoveRegistry";
 
 export class MoveChecker
 {
     constructor(public pieces: Array<Piece>, public piece: Piece, public move: Move) {
     }
 
-    public checkMove(): boolean {
+    public checkMove(lastMove: MoveRegistry | null): boolean {
         if (this.move.x === undefined || this.move.y === undefined || this.move.y > 8 || this.move.y < 1) {
             return false;
         }
 
         let foundPiece: Piece | null = PieceFinder.find(this.pieces, this.move.x, this.move.y);
 
-        if (!this.move.isCapture && foundPiece) {
-            return false;
-        }
-        else if (this.move.isCapture && !foundPiece) {
+        if (!this.move.isCapture && foundPiece && !this.move.isEnPassant) {
             return false;
         }
 
-        if (this.move.isCapture && foundPiece !== null && this.piece.color === foundPiece.color) {
+        else if (this.move.isCapture && !foundPiece && !this.move.isEnPassant) {
+            return false;
+        }
+
+        if (this.move.isCapture && foundPiece !== null && this.piece.color === foundPiece.color && !this.move.isEnPassant) {
+            return false;
+        }
+
+        if (this.move.isEnPassant && !this.checkEnPassant(lastMove)) {
             return false;
         }
 
@@ -134,6 +140,28 @@ export class MoveChecker
         }
 
         return this.isEmptyBetweenPositions(this.piece.position, rook.position);
+    }
+
+    public checkEnPassant(lastMove: MoveRegistry | null): boolean {
+        const foundPiece: Piece | null = PieceFinder.find(this.pieces, this.move.x, this.piece.position.y)
+        if (foundPiece === null) {
+            return false;
+        }
+
+        if (this.piece.color === foundPiece.color) {
+            return false;
+        }
+
+        if (foundPiece.type !== PieceType.Pawn) {
+            return false;
+        }
+
+        if (lastMove !== null && foundPiece !== lastMove.piece) {
+            return false;
+        }
+
+        return !(lastMove !== null && lastMove.from.x !== foundPiece.position.x && Math.abs(lastMove.from.y - foundPiece.position.y) !== 2);
+
     }
 
     public isEmptyBetweenPositions(position1: Position, position2: Position): boolean {

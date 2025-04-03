@@ -5,6 +5,9 @@ import {MoveManager} from "./Moves/MoveManager";
 import {Move} from "./Moves/Move";
 import {BoardDrawer} from "./BoardDrawer";
 import {PieceType} from "./Pieces/Utils/PieceType";
+import {MoveHistory} from "./Moves/History/MoveHistory";
+import {MoveRegistry} from "./Moves/History/MoveRegistry";
+import {Position} from "./Pieces/Utils/Position";
 
 export class Board
 {
@@ -15,11 +18,13 @@ export class Board
     public currentTurn: ColorType = ColorType.White;
 
     public moveManager: MoveManager;
+    public moveHistory: MoveHistory;
     public boardDrawer: BoardDrawer;
 
     public constructor() {
         this.createInitialPosition()
         this.moveManager = new MoveManager(this.pieces);
+        this.moveHistory = new MoveHistory();
         this.boardDrawer = new BoardDrawer();
         this.buildChessBoard()
     }
@@ -37,7 +42,7 @@ export class Board
             return;
         }
 
-        let moves = board.moveManager.getMoves(piece);
+        let moves = board.moveManager.getMoves(piece, board.moveHistory.getLastRegisteredMove());
 
         board.boardDrawer.drawMoves(board, piece, moves, board.moveClickedAction)
     }
@@ -70,6 +75,7 @@ export class Board
     private movePiece(piece: Piece, move: Move): void {
         this.changeTurn();
 
+        this.moveHistory.history.push(new MoveRegistry(piece, move, new Position(piece.position.x, piece.position.y)));
         this.moveManager.move(piece, move);
 
         this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)

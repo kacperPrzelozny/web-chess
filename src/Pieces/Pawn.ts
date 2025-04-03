@@ -153,6 +153,36 @@ export class Pawn extends Piece
         moves.push(captureMoveLeft);
         moves.push(captureMoveRight);
 
+        if ((direction == 1 && this.position.y === 5) || (direction == -1 && this.position.y === 4)) {
+            let enPassantMoveLeft = new Move(
+                Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1],
+                this.position.y + direction,
+                true,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false,
+                true
+            )
+            let enPassantMoveRight = new Move(
+                Board.xAxis[Board.xAxis.indexOf(this.position.x) + 1],
+                this.position.y + direction,
+                true,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false,
+                true
+            )
+
+            moves.push(enPassantMoveLeft);
+            moves.push(enPassantMoveRight);
+        }
+
         return moves;
     }
 
