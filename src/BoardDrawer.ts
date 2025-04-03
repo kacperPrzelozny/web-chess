@@ -90,7 +90,7 @@ export class BoardDrawer
 
             let img = document.createElement("img");
             img.classList.add("move-img")
-            img.src = "assets/images/moves/" + (move.isCapture ? "move-capture" : "move") + ".png";
+            img.src = "assets/images/moves/" + (move.isCapture && !move.isEnPassant ? "move-capture" : "move") + ".png";
             img.addEventListener("click", () => {
                 moveClickedAction(board, piece, move);
             })
