@@ -14,6 +14,12 @@ export class AudioPlayer
         this.play(audio);
     }
 
+    public playCheckSound() {
+        const audio = new Audio('assets/sounds/move-check.mp3');
+
+        this.play(audio);
+    }
+
     private play(audio: HTMLAudioElement) {
         audio.currentTime = 0;
         audio.play().then();

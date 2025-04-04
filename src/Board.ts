@@ -22,6 +22,7 @@ export class Board
     public moveHistory: MoveHistory;
     public boardDrawer: BoardDrawer;
     public audioPlayer: AudioPlayer;
+    public checkedKingColor: ColorType | null = null;
 
     public constructor() {
         this.createInitialPosition()
@@ -57,17 +58,27 @@ export class Board
                 return;
             }
         }
-        board.movePiece(piece, move);
+        const isCheck = board.movePiece(piece, move, board.moveHistory.getLastRegisteredMove());
 
-        board.audioPlayer.playSoundOnMove(move)
+        isCheck ? board.audioPlayer.playCheckSound() : board.audioPlayer.playSoundOnMove(move)
+        if (isCheck) {
+            board.checkedKingColor = piece.color === ColorType.White ? ColorType.Black : ColorType.White;
+        } else {
+            board.checkedKingColor = null
+        }
     }
 
     private promotionSelectedAction(board: Board, piece: Piece, move: Move, pieceType: PieceType): void {
         const newPiece = board.promotePawn(piece, pieceType)
 
-        board.movePiece(newPiece, move);
+        const isCheck = board.movePiece(newPiece, move, board.moveHistory.getLastRegisteredMove());
 
-        board.audioPlayer.playPromotionSound()
+        isCheck ? board.audioPlayer.playCheckSound() : board.audioPlayer.playPromotionSound()
+        if (isCheck) {
+            board.checkedKingColor = piece.color === ColorType.White ? ColorType.Black : ColorType.White;
+        } else {
+            board.checkedKingColor = null
+        }
     }
 
     private createInitialPosition(): void {
@@ -79,13 +90,15 @@ export class Board
         this.currentTurn = this.currentTurn === ColorType.White ? ColorType.Black : ColorType.White;
     }
 
-    private movePiece(piece: Piece, move: Move): void {
+    private movePiece(piece: Piece, move: Move, lastMove: MoveRegistry | null): boolean {
         this.changeTurn();
 
         this.moveHistory.history.push(new MoveRegistry(piece, move, new Position(piece.position.x, piece.position.y)));
-        this.moveManager.move(piece, move);
+        const isCheck = this.moveManager.moveAndAnalyzeCheck(piece, move, lastMove);
 
         this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)
+
+        return isCheck;
     }
 
     private promotePawn(piece: Piece, pieceType: PieceType): Piece {

@@ -6,10 +6,11 @@ import {ColorType} from "../Pieces/Utils/Colors";
 import {PieceFinder} from "../Pieces/PieceFinder";
 import {Board} from "../Board";
 import {MoveRegistry} from "./History/MoveRegistry";
+import {CheckAnalyzer} from "../Check/CheckAnalyzer";
 
 export class MoveManager
 {
-    private pieces: Array<Piece>;
+    private readonly pieces: Array<Piece>;
     private moveGenerator: MoveGenerator;
 
     constructor(pieces: Array<Piece>) {
@@ -31,7 +32,7 @@ export class MoveManager
         })
     }
 
-    public move(piece: Piece, move: Move): void {
+    public moveAndAnalyzeCheck(piece: Piece, move: Move, lastMove: MoveRegistry | null): boolean {
         let capturedPiece = PieceFinder.find(this.pieces, move.x, move.y);
         if (move.isCapture && capturedPiece !== null) {
             this.removePiece(capturedPiece);
@@ -51,6 +52,11 @@ export class MoveManager
         piece.position.x = move.x;
         piece.position.y = move.y;
         piece.hasAlreadyMoved = true;
+
+        const attackedKingColor: ColorType = piece.color === ColorType.White ? ColorType.Black : ColorType.White
+        const checkAnalyzer: CheckAnalyzer = new CheckAnalyzer(attackedKingColor, this.pieces);
+
+        return checkAnalyzer.analyze(lastMove, attackedKingColor);
     }
 
     public moveRookInCastle(piece: Piece, move: Move): void {
