@@ -58,7 +58,7 @@ export class Board
                 return;
             }
         }
-        const isCheck = board.movePiece(piece, move, board.moveHistory.getLastRegisteredMove());
+        const isCheck = board.movePiece(piece, move);
 
         isCheck ? board.audioPlayer.playCheckSound() : board.audioPlayer.playSoundOnMove(move)
         if (isCheck) {
@@ -71,7 +71,7 @@ export class Board
     private promotionSelectedAction(board: Board, piece: Piece, move: Move, pieceType: PieceType): void {
         const newPiece = board.promotePawn(piece, pieceType)
 
-        const isCheck = board.movePiece(newPiece, move, board.moveHistory.getLastRegisteredMove());
+        const isCheck = board.movePiece(newPiece, move);
 
         isCheck ? board.audioPlayer.playCheckSound() : board.audioPlayer.playPromotionSound()
         if (isCheck) {
@@ -90,11 +90,11 @@ export class Board
         this.currentTurn = this.currentTurn === ColorType.White ? ColorType.Black : ColorType.White;
     }
 
-    private movePiece(piece: Piece, move: Move, lastMove: MoveRegistry | null): boolean {
+    private movePiece(piece: Piece, move: Move): boolean {
         this.changeTurn();
 
         this.moveHistory.history.push(new MoveRegistry(piece, move, new Position(piece.position.x, piece.position.y)));
-        const isCheck = this.moveManager.moveAndAnalyzeCheck(piece, move, lastMove);
+        const isCheck = this.moveManager.moveAndAnalyzeCheck(piece, move);
 
         this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)
 

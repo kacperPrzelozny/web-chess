@@ -2,9 +2,14 @@ import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
 import {Move} from "../Moves/Move";
 import {Board} from "../Board";
+import {PieceType} from "./Utils/PieceType";
 
 export class Knight extends Piece
 {
+    constructor(color: ColorType, x: string, y: number) {
+        super(color, x, y, PieceType.Knight);
+    }
+
     public static readonly NAME = "knight";
 
     public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [

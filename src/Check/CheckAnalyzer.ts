@@ -1,49 +1,137 @@
 import {ColorType} from "../Pieces/Utils/Colors";
 import {Piece} from "../Pieces/Piece";
-import {Move} from "../Moves/Move";
-import {PieceFinder} from "../Pieces/PieceFinder";
+import {PieceFinder} from "../Pieces/Utils/PieceFinder";
 import {PieceType} from "../Pieces/Utils/PieceType";
+import {King} from "../Pieces/King";
+import {Board} from "../Board";
+import {Move} from "../Moves/Move";
 import {MoveManager} from "../Moves/MoveManager";
-import {MoveRegistry} from "../Moves/History/MoveRegistry";
 
 export class CheckAnalyzer
 {
-    private moveManager: MoveManager;
-
     constructor(public attackedKingColor: ColorType, public pieces: Array<Piece>) {
-        this.moveManager = new MoveManager(this.pieces);
     }
 
-    public analyze(lastMove: MoveRegistry | null, attackedKingColor: ColorType | null): boolean {
-        const attackingPieces = this.getPiecesAttackingKing()
-        let moves: Array<Move> = []
+    public analyze(): boolean {
+        const attackedKing = this.getAttackedKing();
+        return !(this.isSafeInRow(attackedKing)
+            && this.isSafeInColumn(attackedKing)
+            && this.isSafeDiagonally(attackedKing)
+            && this.isSafeInLShapedMove(attackedKing)
+            && this.isSafeFromPawns(attackedKing));
+    }
 
-        for (let piece of attackingPieces) {
-            let possibleMoves: Array<Move> = this.moveManager.getMoves(piece, lastMove)
-            moves.push(...possibleMoves);
+    public analyzeNextMove(piece: Piece, move: Move): boolean {
+        const moveManager = new MoveManager(this.pieces);
+        moveManager.moveAndAnalyzeCheck(piece, move);
+
+        return !this.analyze();
+    }
+
+    private getAttackedKing(): King {
+        const kings =  this.pieces.filter((piece: Piece) => {
+            return piece.color === this.attackedKingColor && piece.type === PieceType.King;
+        })
+
+        return kings[0];
+    }
+
+    private isSafeInRow(king: King) {
+        return this.analyzeInDirection(king, 1, 0) && this.analyzeInDirection(king, -1, 0);
+    }
+
+    private isSafeInColumn(king: King) {
+        return this.analyzeInDirection(king, 0, 1) && this.analyzeInDirection(king, 0, -1);
+    }
+
+    private isSafeDiagonally(king: King) {
+        return this.analyzeInDirection(king, 1, 1) && this.analyzeInDirection(king, 1, -1) && this.analyzeInDirection(king, -1, 1) && this.analyzeInDirection(king, -1, -1);
+    }
+
+    private isSafeInLShapedMove(king: King) {
+        return this.analyzePositionInLShape(king, 2, 1)
+            && this.analyzePositionInLShape(king, 2, -1)
+            && this.analyzePositionInLShape(king, -2, 1)
+            && this.analyzePositionInLShape(king, -2, -1)
+            && this.analyzePositionInLShape(king, 1, 2)
+            && this.analyzePositionInLShape(king, -1, 2)
+            && this.analyzePositionInLShape(king, 1, -2)
+            && this.analyzePositionInLShape(king, -1, -2)
+    }
+
+    private isSafeFromPawns(king: King): boolean {
+        return this.analyzePawnPosition(king, 1) && this.analyzePawnPosition(king, -1)
+    }
+
+    private analyzeInDirection(king: King, xDifference: -1 | 0 | 1, yDifference = -1 | 0 | 1): boolean {
+        let isSafe: boolean = true;
+        if (xDifference === 0 && yDifference === 0) {
+            throw new Error("Invalid directions")
         }
 
-        return this.filterMovesAttackingKing(moves).length > 0;
-    }
+        let x: number = xDifference;
+        let y: number = yDifference;
 
-    private getPiecesAttackingKing(): Array<Piece> {
-        return this.pieces.filter((piece: Piece) => {
-            return piece.color !== this.attackedKingColor;
-        })
-    }
+        while (true) {
+            const piece = PieceFinder.find(this.pieces, Board.xAxis[Board.xAxis.indexOf(king.position.x) + x], king.position.y + y);
+            if (piece === null) {
+                x += xDifference;
+                y += yDifference;
+                if (Board.xAxis[Board.xAxis.indexOf(king.position.x) + x] === undefined) {
+                    break;
+                }
 
-    private filterMovesAttackingKing(moves: Array<Move>) {
-        return moves.filter((move: Move) => {
-            if (!move.isCapture) {
-                return false;
+                if (king.position.y + y < 1 || king.position.y + y > 8) {
+                    break;
+                }
+
+                continue;
             }
 
-            const foundPiece = PieceFinder.find(this.pieces, move.x, move.y);
-            if (foundPiece === null) {
-                return false;
+            if (piece.color === king.color) {
+                break;
             }
 
-            return !(foundPiece.color !== this.attackedKingColor || foundPiece.type !== PieceType.King);
-        });
+            if ((xDifference === 0 || yDifference === 0) && piece.canMoveInRowAndColumn()) {
+                isSafe = false;
+            }
+
+            if (xDifference !== 0 && yDifference !== 0 && piece.canMoveDiagonally()) {
+                isSafe = false;
+            }
+
+            break;
+        }
+
+        return isSafe;
+    }
+
+    private analyzePositionInLShape(king: King, xDifference: number, yDifference: number): boolean {
+        const piece = PieceFinder.find(this.pieces, Board.xAxis[Board.xAxis.indexOf(king.position.x) + xDifference], king.position.y + yDifference);
+
+        if (piece === null) {
+            return true
+        }
+
+        if (piece.color === king.color) {
+            return true;
+        }
+
+        return !piece.canMoveInLShape();
+    }
+
+    private analyzePawnPosition(king: King, xDifference: -1 | 1): boolean {
+        const yDifference = king.color === ColorType.White ? 1 : -1
+        const piece = PieceFinder.find(this.pieces, Board.xAxis[Board.xAxis.indexOf(king.position.x) + xDifference], king.position.y + yDifference);
+
+        if (piece === null) {
+            return true
+        }
+
+        if (piece.color === king.color) {
+            return true;
+        }
+
+        return piece.type !== PieceType.Pawn;
     }
 }

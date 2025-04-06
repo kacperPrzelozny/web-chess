@@ -1,9 +1,14 @@
 import {Piece} from "./Piece";
 import {ColorType} from "./Utils/Colors";
 import {Move} from "../Moves/Move";
+import {PieceType} from "./Utils/PieceType";
 
 export class Rook extends Piece
 {
+    constructor(color: ColorType, x: string, y: number) {
+        super(color, x, y, PieceType.Rook);
+    }
+
     public static readonly NAME = "rook";
 
     public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [

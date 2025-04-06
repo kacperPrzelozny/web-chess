@@ -12,7 +12,7 @@ export abstract class Piece
     hasAlreadyMoved: boolean = false;
     type: PieceType;
 
-    constructor(color: ColorType, x: string, y: number, pieceType: PieceType) {
+    protected constructor(color: ColorType, x: string, y: number, pieceType: PieceType) {
         this.color = color;
         this.position = new Position(x, y)
         this.type = pieceType
@@ -100,5 +100,17 @@ export abstract class Piece
 
     public generatePieceName(): string {
         return this.color + "_";
+    }
+
+    public canMoveInRowAndColumn(): boolean {
+        return this.type === PieceType.Rook || this.type === PieceType.Queen;
+    }
+
+    public canMoveDiagonally(): boolean {
+        return this.type === PieceType.Bishop || this.type === PieceType.Queen;
+    }
+
+    public canMoveInLShape(): boolean {
+        return this.type === PieceType.Knight;
     }
 }

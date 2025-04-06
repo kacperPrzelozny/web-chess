@@ -1,11 +1,12 @@
 import {Move} from "./Move";
 import {Board} from "../Board";
 import {Piece} from "../Pieces/Piece";
-import {PieceFinder} from "../Pieces/PieceFinder";
+import {PieceFinder} from "../Pieces/Utils/PieceFinder";
 import {PieceType} from "../Pieces/Utils/PieceType";
 import {ColorType} from "../Pieces/Utils/Colors";
 import {Position} from "../Pieces/Utils/Position";
 import {MoveRegistry} from "./History/MoveRegistry";
+import {CheckAnalyzer} from "../Check/CheckAnalyzer";
 
 export class MoveChecker
 {
@@ -47,7 +48,13 @@ export class MoveChecker
             return false;
         }
 
-        return !(this.move.isDiagonal && !this.checkDiagonal());
+        if (this.move.isDiagonal && !this.checkDiagonal()) {
+            return false;
+        }
+
+        const checkAnalyzer = new CheckAnalyzer(this.piece.color, this.pieces)
+
+        return checkAnalyzer.analyzeNextMove(this.piece, this.move);
     }
 
     public checkMoveInColumn(): boolean {

@@ -6,6 +6,10 @@ import {PieceType} from "./Utils/PieceType";
 
 export class Pawn extends Piece
 {
+    constructor(color: ColorType, x: string, y: number) {
+        super(color, x, y, PieceType.Pawn);
+    }
+
     public static readonly NAME = "pawn";
 
     public static initialPositions : Array<{color: ColorType, x: string, y: number}> = [
