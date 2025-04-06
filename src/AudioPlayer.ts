@@ -2,6 +2,12 @@ import {Move} from "./Moves/Move";
 
 export class AudioPlayer
 {
+    public playSoundOnGameStart(): void {
+        const audio = new Audio('assets/sounds/game-start.mp3');
+
+        this.play(audio);
+    }
+
     public playSoundOnMove(move: Move) {
         const audio = new Audio(move.generateSoundPath());
 
@@ -16,6 +22,12 @@ export class AudioPlayer
 
     public playCheckSound() {
         const audio = new Audio('assets/sounds/move-check.mp3');
+
+        this.play(audio);
+    }
+
+    public playSoundOnGameEnd() {
+        const audio = new Audio('assets/sounds/game-end.mp3');
 
         this.play(audio);
     }

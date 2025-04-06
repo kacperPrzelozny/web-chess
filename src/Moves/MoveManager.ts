@@ -6,8 +6,10 @@ import {ColorType} from "../Pieces/Utils/Colors";
 import {PieceFinder} from "../Pieces/Utils/PieceFinder";
 import {Board} from "../Board";
 import {MoveRegistry} from "./History/MoveRegistry";
-import {CheckAnalyzer} from "../Check/CheckAnalyzer";
+import {CheckAnalyzer} from "../Rules/CheckAnalyzer";
 import {Position} from "../Pieces/Utils/Position";
+import {PossibleMovesAnalyzer} from "../Rules/PossibleMovesAnalyzer";
+import {SituationType} from "../Rules/SituationType";
 
 export class MoveManager
 {
@@ -33,7 +35,7 @@ export class MoveManager
         })
     }
 
-    public moveAndAnalyzeCheck(piece: Piece, move: Move): boolean {
+    public move(piece: Piece, move: Move) {
         let capturedPiece = PieceFinder.find(this.pieces, move.x, move.y);
         if (move.isCapture && capturedPiece !== null) {
             this.removePiece(capturedPiece);
@@ -53,11 +55,26 @@ export class MoveManager
         piece.position.x = move.x;
         piece.position.y = move.y;
         piece.hasAlreadyMoved = true;
+    }
+    public moveAndAnalyzeCheck(piece: Piece, move: Move, currentMove: MoveRegistry | null): SituationType | null {
+        this.move(piece, move);
 
         const attackedKingColor: ColorType = piece.color === ColorType.White ? ColorType.Black : ColorType.White
         const checkAnalyzer: CheckAnalyzer = new CheckAnalyzer(attackedKingColor, this.pieces);
+        const possibleMovesAnalyzer: PossibleMovesAnalyzer = new PossibleMovesAnalyzer(attackedKingColor, this.pieces);
 
-        return checkAnalyzer.analyze();
+        const isCheck = checkAnalyzer.analyze()
+        const hasPossibleMoves = possibleMovesAnalyzer.analyze(currentMove)
+
+        if (isCheck && hasPossibleMoves) {
+            return SituationType.Check
+        } else if (isCheck && !hasPossibleMoves) {
+            return SituationType.CheckMate
+        } else if (!isCheck && !hasPossibleMoves) {
+            return SituationType.Check
+        } else {
+            return null
+        }
     }
 
     public undoMove(piece: Piece, startPosition: Position, capturedPiece: Piece | null, hasAlreadyMoved: boolean): void {

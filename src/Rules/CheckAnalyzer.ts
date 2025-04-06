@@ -7,6 +7,7 @@ import {Board} from "../Board";
 import {Move} from "../Moves/Move";
 import {MoveManager} from "../Moves/MoveManager";
 import {Position} from "../Pieces/Utils/Position";
+import {MoveRegistry} from "../Moves/History/MoveRegistry";
 
 export class CheckAnalyzer
 {
@@ -31,7 +32,7 @@ export class CheckAnalyzer
         const capturedPiece = PieceFinder.find(this.pieces, move.x, move.y);
         const hasAlreadyMoved = piece.hasAlreadyMoved
 
-        moveManager.moveAndAnalyzeCheck(piece, move);
+        moveManager.move(piece, move);
 
         const isCheck = this.analyze();
 

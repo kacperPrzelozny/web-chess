@@ -6,7 +6,7 @@ import {PieceType} from "../Pieces/Utils/PieceType";
 import {ColorType} from "../Pieces/Utils/Colors";
 import {Position} from "../Pieces/Utils/Position";
 import {MoveRegistry} from "./History/MoveRegistry";
-import {CheckAnalyzer} from "../Check/CheckAnalyzer";
+import {CheckAnalyzer} from "../Rules/CheckAnalyzer";
 
 export class MoveChecker
 {

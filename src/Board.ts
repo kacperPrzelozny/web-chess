@@ -9,6 +9,7 @@ import {MoveHistory} from "./Moves/History/MoveHistory";
 import {MoveRegistry} from "./Moves/History/MoveRegistry";
 import {Position} from "./Pieces/Utils/Position";
 import {AudioPlayer} from "./AudioPlayer";
+import {SituationType} from "./Rules/SituationType";
 
 export class Board
 {
@@ -22,7 +23,6 @@ export class Board
     public moveHistory: MoveHistory;
     public boardDrawer: BoardDrawer;
     public audioPlayer: AudioPlayer;
-    public checkedKingColor: ColorType | null = null;
 
     public constructor() {
         this.createInitialPosition()
@@ -31,6 +31,7 @@ export class Board
         this.boardDrawer = new BoardDrawer();
         this.audioPlayer = new AudioPlayer();
         this.buildChessBoard()
+        this.audioPlayer.playSoundOnGameStart()
     }
 
     // region Private
@@ -58,26 +59,36 @@ export class Board
                 return;
             }
         }
-        const isCheck = board.movePiece(piece, move);
+        const situationType = board.movePiece(piece, move);
 
-        isCheck ? board.audioPlayer.playCheckSound() : board.audioPlayer.playSoundOnMove(move)
-        if (isCheck) {
-            board.checkedKingColor = piece.color === ColorType.White ? ColorType.Black : ColorType.White;
-        } else {
-            board.checkedKingColor = null
+        switch (situationType) {
+            case SituationType.Check:
+                board.audioPlayer.playCheckSound()
+                break;
+            case SituationType.CheckMate:
+            case SituationType.Pat:
+                board.audioPlayer.playSoundOnGameEnd()
+                break;
+            default:
+                board.audioPlayer.playSoundOnMove(move)
         }
     }
 
     private promotionSelectedAction(board: Board, piece: Piece, move: Move, pieceType: PieceType): void {
         const newPiece = board.promotePawn(piece, pieceType)
 
-        const isCheck = board.movePiece(newPiece, move);
+        const situationType = board.movePiece(newPiece, move);
 
-        isCheck ? board.audioPlayer.playCheckSound() : board.audioPlayer.playPromotionSound()
-        if (isCheck) {
-            board.checkedKingColor = piece.color === ColorType.White ? ColorType.Black : ColorType.White;
-        } else {
-            board.checkedKingColor = null
+        switch (situationType) {
+            case SituationType.Check:
+                board.audioPlayer.playCheckSound()
+                break;
+            case SituationType.CheckMate:
+            case SituationType.Pat:
+                board.audioPlayer.playSoundOnGameEnd()
+                break;
+            default:
+                board.audioPlayer.playPromotionSound()
         }
     }
 
@@ -90,15 +101,16 @@ export class Board
         this.currentTurn = this.currentTurn === ColorType.White ? ColorType.Black : ColorType.White;
     }
 
-    private movePiece(piece: Piece, move: Move): boolean {
+    private movePiece(piece: Piece, move: Move): SituationType | null {
         this.changeTurn();
 
-        this.moveHistory.history.push(new MoveRegistry(piece, move, new Position(piece.position.x, piece.position.y)));
-        const isCheck = this.moveManager.moveAndAnalyzeCheck(piece, move);
+        const currentMove = new MoveRegistry(piece, move, new Position(piece.position.x, piece.position.y))
+        this.moveHistory.history.push(currentMove);
+        const situationType = this.moveManager.moveAndAnalyzeCheck(piece, move, currentMove);
 
         this.boardDrawer.drawPieces(this, this.pieces, this.pieceClickedAction)
 
-        return isCheck;
+        return situationType;
     }
 
     private promotePawn(piece: Piece, pieceType: PieceType): Piece {
