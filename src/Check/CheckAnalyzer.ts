@@ -76,6 +76,23 @@ export class CheckAnalyzer
     }
 
     private isSafeFromKing(king: King): boolean {
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+
+                let piece = PieceFinder.find(this.pieces, Board.xAxis[Board.xAxis.indexOf(king.position.x) + i], king.position.y + j)
+                if (piece === null) {
+                    continue;
+                }
+
+                if (piece.type === PieceType.King && piece.color === (king.color === ColorType.White ? ColorType.Black : ColorType.White)) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
