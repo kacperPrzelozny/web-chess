@@ -36,7 +36,7 @@ export class CheckAnalyzer
 
         const isCheck = this.analyze();
 
-        moveManager.undoMove(piece, startPosition, capturedPiece, hasAlreadyMoved)
+        moveManager.undoMove(piece, move, startPosition, capturedPiece, hasAlreadyMoved)
 
         return isCheck;
     }

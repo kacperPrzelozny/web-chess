@@ -77,11 +77,15 @@ export class MoveManager
         }
     }
 
-    public undoMove(piece: Piece, startPosition: Position, capturedPiece: Piece | null, hasAlreadyMoved: boolean): void {
+    public undoMove(piece: Piece, move: Move, startPosition: Position, capturedPiece: Piece | null, hasAlreadyMoved: boolean): void {
+        if (move.isCastling) {
+            this.undoCastling(piece)
+        }
         piece.position = startPosition;
         if (capturedPiece !== null) {
             this.pieces.push(capturedPiece);
         }
+        piece.hasAlreadyMoved = hasAlreadyMoved;
     }
 
     public moveRookInCastle(piece: Piece, move: Move): void {
@@ -94,6 +98,30 @@ export class MoveManager
         const rook: Piece | null = PieceFinder.find(this.pieces, x, y);
         if (rook !== null) {
             rook.position.x = xDirection ? "D" : "F";
+        }
+    }
+
+    public undoCastling(piece: Piece): void {
+        const y: 8 | 1 = piece.color === ColorType.White ? 1 : 8;
+
+        let x: string | null = null;
+        let toX: string | null = null;
+        if (piece.position.x === "G") {
+            x = "F"
+            toX = "H"
+        } else if (piece.position.x === "C") {
+            x = "D"
+            toX = "A"
+        }
+
+        if (x === null || toX === null) {
+            return;
+        }
+
+        const rook: Piece | null = PieceFinder.find(this.pieces, x, y);
+        if (rook !== null) {
+            rook.position.y = y
+            rook.position.x = toX
         }
     }
 
