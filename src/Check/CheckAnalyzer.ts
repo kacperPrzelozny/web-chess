@@ -6,26 +6,38 @@ import {King} from "../Pieces/King";
 import {Board} from "../Board";
 import {Move} from "../Moves/Move";
 import {MoveManager} from "../Moves/MoveManager";
+import {Position} from "../Pieces/Utils/Position";
 
 export class CheckAnalyzer
 {
     constructor(public attackedKingColor: ColorType, public pieces: Array<Piece>) {
     }
 
+    // true - check, false - not check
     public analyze(): boolean {
         const attackedKing = this.getAttackedKing();
         return !(this.isSafeInRow(attackedKing)
             && this.isSafeInColumn(attackedKing)
             && this.isSafeDiagonally(attackedKing)
             && this.isSafeInLShapedMove(attackedKing)
-            && this.isSafeFromPawns(attackedKing));
+            && this.isSafeFromPawns(attackedKing)
+            && this.isSafeFromKing(attackedKing)
+        );
     }
 
     public analyzeNextMove(piece: Piece, move: Move): boolean {
         const moveManager = new MoveManager(this.pieces);
+        const startPosition = new Position(piece.position.x, piece.position.y);
+        const capturedPiece = PieceFinder.find(this.pieces, move.x, move.y);
+        const hasAlreadyMoved = piece.hasAlreadyMoved
+
         moveManager.moveAndAnalyzeCheck(piece, move);
 
-        return !this.analyze();
+        const isCheck = this.analyze();
+
+        moveManager.undoMove(piece, startPosition, capturedPiece, hasAlreadyMoved)
+
+        return isCheck;
     }
 
     private getAttackedKing(): King {
@@ -61,6 +73,10 @@ export class CheckAnalyzer
 
     private isSafeFromPawns(king: King): boolean {
         return this.analyzePawnPosition(king, 1) && this.analyzePawnPosition(king, -1)
+    }
+
+    private isSafeFromKing(king: King): boolean {
+        return true;
     }
 
     private analyzeInDirection(king: King, xDifference: -1 | 0 | 1, yDifference = -1 | 0 | 1): boolean {

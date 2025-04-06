@@ -54,7 +54,11 @@ export class MoveChecker
 
         const checkAnalyzer = new CheckAnalyzer(this.piece.color, this.pieces)
 
-        return checkAnalyzer.analyzeNextMove(this.piece, this.move);
+        if (this.move.isCastling && checkAnalyzer.analyze()) {
+            return false;
+        }
+
+        return !checkAnalyzer.analyzeNextMove(this.piece, this.move);
     }
 
     public checkMoveInColumn(): boolean {

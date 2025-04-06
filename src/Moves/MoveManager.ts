@@ -7,6 +7,7 @@ import {PieceFinder} from "../Pieces/Utils/PieceFinder";
 import {Board} from "../Board";
 import {MoveRegistry} from "./History/MoveRegistry";
 import {CheckAnalyzer} from "../Check/CheckAnalyzer";
+import {Position} from "../Pieces/Utils/Position";
 
 export class MoveManager
 {
@@ -57,6 +58,13 @@ export class MoveManager
         const checkAnalyzer: CheckAnalyzer = new CheckAnalyzer(attackedKingColor, this.pieces);
 
         return checkAnalyzer.analyze();
+    }
+
+    public undoMove(piece: Piece, startPosition: Position, capturedPiece: Piece | null, hasAlreadyMoved: boolean): void {
+        piece.position = startPosition;
+        if (capturedPiece !== null) {
+            this.pieces.push(capturedPiece);
+        }
     }
 
     public moveRookInCastle(piece: Piece, move: Move): void {
