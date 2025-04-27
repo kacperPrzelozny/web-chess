@@ -1,10 +1,10 @@
 import {Move} from "./Move";
 import {Board} from "../Board";
 import {Piece} from "../Pieces/Piece";
-import {PieceFinder} from "../Pieces/Utils/PieceFinder";
+import {PieceFinder} from "../PieceFinder/PieceFinder";
 import {PieceType} from "../Enums/PieceType";
 import {ColorType} from "../Enums/Colors";
-import {Position} from "../Pieces/Utils/Position";
+import {Position} from "../Utils/Position";
 import {MoveRegistry} from "./History/MoveRegistry";
 import {CheckAnalyzer} from "../Rules/CheckAnalyzer";
 

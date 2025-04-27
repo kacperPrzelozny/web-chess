@@ -1,5 +1,4 @@
 import {Piece} from "./Pieces/Piece";
-import {PieceGenerator} from "./Pieces/Utils/PieceGenerator";
 import {ColorType} from "./Enums/Colors";
 import {MoveManager} from "./Moves/MoveManager";
 import {Move} from "./Moves/Move";
@@ -7,9 +6,10 @@ import {BoardDrawer} from "./BoardDrawer";
 import {PieceType} from "./Enums/PieceType";
 import {MoveHistory} from "./Moves/History/MoveHistory";
 import {MoveRegistry} from "./Moves/History/MoveRegistry";
-import {Position} from "./Pieces/Utils/Position";
-import {AudioPlayer} from "./AudioPlayer";
+import {Position} from "./Utils/Position";
+import {AudioPlayer} from "./Utils/AudioPlayer";
 import {SituationType} from "./Enums/SituationType";
+import {PieceFactory} from "./PieceFactory/PieceFactory";
 
 export class Board
 {
@@ -89,8 +89,7 @@ export class Board
     }
 
     private createInitialPosition(): void {
-        let pieceGenerator = new PieceGenerator();
-        this.pieces = pieceGenerator.generateInitialPositions()
+        this.pieces = PieceFactory.generateInitialPositions()
     }
 
     private changeTurn(): void {
@@ -110,8 +109,7 @@ export class Board
     }
 
     private promotePawn(piece: Piece, pieceType: PieceType): Piece {
-        const pieceGenerator = new PieceGenerator();
-        const promotedPiece = pieceGenerator.generatePiece(piece.color, piece.position.x, piece.position.y, pieceType)
+        const promotedPiece = PieceFactory.createPiece(pieceType, piece.color, piece.position.x, piece.position.y)
 
         this.moveManager.removePiece(piece);
         this.pieces.push(promotedPiece);

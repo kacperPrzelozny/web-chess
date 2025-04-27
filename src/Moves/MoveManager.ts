@@ -3,11 +3,11 @@ import {MoveGenerator} from "./MoveGenerator";
 import {Move} from "./Move";
 import {MoveChecker} from "./MoveChecker";
 import {ColorType} from "../Enums/Colors";
-import {PieceFinder} from "../Pieces/Utils/PieceFinder";
+import {PieceFinder} from "../PieceFinder/PieceFinder";
 import {Board} from "../Board";
 import {MoveRegistry} from "./History/MoveRegistry";
 import {CheckAnalyzer} from "../Rules/CheckAnalyzer";
-import {Position} from "../Pieces/Utils/Position";
+import {Position} from "../Utils/Position";
 import {PossibleMovesAnalyzer} from "../Rules/PossibleMovesAnalyzer";
 import {SituationType} from "../Enums/SituationType";
 

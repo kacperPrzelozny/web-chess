@@ -11,19 +11,6 @@ export class Queen extends Piece
         super(color, x, y, PieceType.Queen);
     }
 
-    public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [
-        {
-            color: ColorType.White,
-            x: 'D',
-            y: 1
-        },
-        {
-            color: ColorType.Black,
-            x: 'D',
-            y: 8
-        }
-    ];
-
     public getPossibleMoves(): Array<Move> {
         return this.generateRowAndColumnMoves().concat(this.generateDiagonalMoves());
     }

@@ -1,4 +1,4 @@
-import {Position} from "./Utils/Position";
+import {Position} from "../Utils/Position";
 import {ColorType} from "../Enums/Colors";
 import {Move} from "../Moves/Move";
 import {Board} from "../Board";

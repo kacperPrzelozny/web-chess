@@ -1,12 +1,12 @@
 import {ColorType} from "../Enums/Colors";
 import {Piece} from "../Pieces/Piece";
-import {PieceFinder} from "../Pieces/Utils/PieceFinder";
+import {PieceFinder} from "../PieceFinder/PieceFinder";
 import {PieceType} from "../Enums/PieceType";
 import {King} from "../Pieces/King";
 import {Board} from "../Board";
 import {Move} from "../Moves/Move";
 import {MoveManager} from "../Moves/MoveManager";
-import {Position} from "../Pieces/Utils/Position";
+import {Position} from "../Utils/Position";
 import {MoveRegistry} from "../Moves/History/MoveRegistry";
 
 export class CheckAnalyzer

@@ -4,7 +4,7 @@ import {Piece} from "./Pieces/Piece";
 import {PieceType} from "./Enums/PieceType";
 import {ColorType} from "./Enums/Colors";
 import {Pawn} from "./Pieces/Pawn";
-import {PieceGenerator} from "./Pieces/Utils/PieceGenerator";
+import {PieceFactory} from "./PieceFactory/PieceFactory";
 
 export class BoardDrawer
 {
@@ -112,7 +112,7 @@ export class BoardDrawer
         container.innerHTML = "";
 
         for (let i = 0; i < Pawn.canPromoteTo.length; i++) {
-            const pieceForImg = (new PieceGenerator()).generatePiece(piece.color, "X", 0, Pawn.canPromoteTo[i]);
+            const pieceForImg = PieceFactory.createPiece(Pawn.canPromoteTo[i], piece.color, "X", 0);
 
             const square = document.createElement("div");
             square.classList.add("square", i % 2 == 0 ? "white" : "black");

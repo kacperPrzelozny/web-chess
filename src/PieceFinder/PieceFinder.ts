@@ -1,4 +1,4 @@
-import {Piece} from "../Piece";
+import {Piece} from "../Pieces/Piece";
 
 export class PieceFinder {
     public static find(pieces: Array<Piece>, x: string, y: number): Piece | null {

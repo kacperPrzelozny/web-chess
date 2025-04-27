@@ -12,29 +12,6 @@ export class Knight extends Piece
 
     public static readonly NAME = "knight";
 
-    public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [
-        {
-            color: ColorType.White,
-            x: 'B',
-            y: 1
-        },
-        {
-            color: ColorType.White,
-            x: 'G',
-            y: 1
-        },
-        {
-            color: ColorType.Black,
-            x: 'B',
-            y: 8
-        },
-        {
-            color: ColorType.Black,
-            x: 'G',
-            y: 8
-        }
-    ];
-
     public getPossibleMoves(): Array<Move> {
         let moves: Array<Move> = [];
 

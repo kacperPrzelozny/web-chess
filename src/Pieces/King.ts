@@ -12,19 +12,6 @@ export class King extends Piece
 
     public static readonly NAME = "king";
 
-    public static initialPositions: Array<{ color: ColorType; x: string; y: number }> = [
-        {
-            color: ColorType.White,
-            x: 'E',
-            y: 1
-        },
-        {
-            color: ColorType.Black,
-            x: 'E',
-            y: 8
-        }
-    ];
-
     public getPossibleMoves(): Array<Move> {
         let moves: Array<Move> = [];
 

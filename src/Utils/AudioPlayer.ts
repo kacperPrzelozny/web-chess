@@ -1,4 +1,4 @@
-import {Move} from "./Moves/Move";
+import {Move} from "../Moves/Move";
 
 export class AudioPlayer
 {

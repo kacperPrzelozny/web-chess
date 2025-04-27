@@ -1,6 +1,6 @@
 import {Piece} from "../Pieces/Piece";
 import {Move} from "./Move";
-import {PieceFinder} from "../Pieces/Utils/PieceFinder";
+import {PieceFinder} from "../PieceFinder/PieceFinder";
 
 export class MoveGenerator
 {
