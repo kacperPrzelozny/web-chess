@@ -43,10 +43,6 @@ export class Board
 
     private pieceClickedAction(board: Board, piece: Piece)
     {
-        if (piece.color !== board.currentTurn) {
-            return;
-        }
-
         let moves = board.moveManager.getMoves(piece, board.moveHistory.getLastRegisteredMove());
 
         board.boardDrawer.drawMoves(board, piece, moves, board.moveClickedAction)

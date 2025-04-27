@@ -69,9 +69,11 @@ export class BoardDrawer
 
             piece.icon = img
 
-            img.addEventListener("click", () => {
-                pieceClickedAction(board, piece);
-            })
+            if (piece.color === board.currentTurn) {
+                img.addEventListener("click", () => {
+                    pieceClickedAction(board, piece);
+                })
+            }
 
             square.appendChild(img);
         }
