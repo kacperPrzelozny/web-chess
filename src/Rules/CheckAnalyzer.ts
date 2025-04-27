@@ -29,7 +29,12 @@ export class CheckAnalyzer
     public analyzeNextMove(piece: Piece, move: Move): boolean {
         const moveManager = new MoveManager(this.pieces);
         const startPosition = new Position(piece.position.x, piece.position.y);
-        const capturedPiece = PieceFinder.find(this.pieces, move.x, move.y);
+
+        let capturedPiece = PieceFinder.find(this.pieces, move.x, move.y);
+        if (move.isEnPassant) {
+            capturedPiece = PieceFinder.find(this.pieces, move.x, piece.position.y)
+        }
+
         const hasAlreadyMoved = piece.hasAlreadyMoved
 
         moveManager.move(piece, move);

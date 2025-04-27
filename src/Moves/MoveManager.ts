@@ -56,6 +56,7 @@ export class MoveManager
         piece.position.y = move.y;
         piece.hasAlreadyMoved = true;
     }
+
     public moveAndAnalyzeCheck(piece: Piece, move: Move, currentMove: MoveRegistry | null): SituationType | null {
         this.move(piece, move);
 
@@ -77,7 +78,13 @@ export class MoveManager
         }
     }
 
-    public undoMove(piece: Piece, move: Move, startPosition: Position, capturedPiece: Piece | null, hasAlreadyMoved: boolean): void {
+    public undoMove(
+        piece: Piece,
+        move: Move,
+        startPosition: Position,
+        capturedPiece: Piece | null,
+        hasAlreadyMoved: boolean
+    ): void {
         if (move.isCastling) {
             this.undoCastling(piece)
         }
