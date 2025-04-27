@@ -1,5 +1,5 @@
-import {ColorType} from "./Colors";
-import {PieceType} from "./PieceType";
+import {ColorType} from "../../Enums/Colors";
+import {PieceType} from "../../Enums/PieceType";
 import {Pawn} from "../Pawn";
 import {Piece} from "../Piece";
 import {Bishop} from "../Bishop";

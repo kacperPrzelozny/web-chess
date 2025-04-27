@@ -2,14 +2,14 @@ import {Piece} from "../Pieces/Piece";
 import {MoveGenerator} from "./MoveGenerator";
 import {Move} from "./Move";
 import {MoveChecker} from "./MoveChecker";
-import {ColorType} from "../Pieces/Utils/Colors";
+import {ColorType} from "../Enums/Colors";
 import {PieceFinder} from "../Pieces/Utils/PieceFinder";
 import {Board} from "../Board";
 import {MoveRegistry} from "./History/MoveRegistry";
 import {CheckAnalyzer} from "../Rules/CheckAnalyzer";
 import {Position} from "../Pieces/Utils/Position";
 import {PossibleMovesAnalyzer} from "../Rules/PossibleMovesAnalyzer";
-import {SituationType} from "../Rules/SituationType";
+import {SituationType} from "../Enums/SituationType";
 
 export class MoveManager
 {

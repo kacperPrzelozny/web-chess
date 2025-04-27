@@ -1,4 +1,4 @@
-import {ColorType} from "../Pieces/Utils/Colors";
+import {ColorType} from "../Enums/Colors";
 import {Piece} from "../Pieces/Piece";
 import {Move} from "../Moves/Move";
 import {MoveManager} from "../Moves/MoveManager";

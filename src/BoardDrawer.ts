@@ -1,8 +1,8 @@
 import {Board} from "./Board";
 import {Move} from "./Moves/Move";
 import {Piece} from "./Pieces/Piece";
-import {PieceType} from "./Pieces/Utils/PieceType";
-import {ColorType} from "./Pieces/Utils/Colors";
+import {PieceType} from "./Enums/PieceType";
+import {ColorType} from "./Enums/Colors";
 import {Pawn} from "./Pieces/Pawn";
 import {PieceGenerator} from "./Pieces/Utils/PieceGenerator";
 

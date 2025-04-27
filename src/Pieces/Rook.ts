@@ -1,7 +1,7 @@
 import {Piece} from "./Piece";
-import {ColorType} from "./Utils/Colors";
+import {ColorType} from "../Enums/Colors";
 import {Move} from "../Moves/Move";
-import {PieceType} from "./Utils/PieceType";
+import {PieceType} from "../Enums/PieceType";
 
 export class Rook extends Piece
 {

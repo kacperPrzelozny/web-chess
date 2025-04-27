@@ -1,15 +1,15 @@
 import {Piece} from "./Pieces/Piece";
 import {PieceGenerator} from "./Pieces/Utils/PieceGenerator";
-import {ColorType} from "./Pieces/Utils/Colors";
+import {ColorType} from "./Enums/Colors";
 import {MoveManager} from "./Moves/MoveManager";
 import {Move} from "./Moves/Move";
 import {BoardDrawer} from "./BoardDrawer";
-import {PieceType} from "./Pieces/Utils/PieceType";
+import {PieceType} from "./Enums/PieceType";
 import {MoveHistory} from "./Moves/History/MoveHistory";
 import {MoveRegistry} from "./Moves/History/MoveRegistry";
 import {Position} from "./Pieces/Utils/Position";
 import {AudioPlayer} from "./AudioPlayer";
-import {SituationType} from "./Rules/SituationType";
+import {SituationType} from "./Enums/SituationType";
 
 export class Board
 {
