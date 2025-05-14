@@ -1,7 +1,7 @@
 import {Piece} from "./Piece";
 import {ColorType} from "../Enums/Colors";
 import {Move} from "../Moves/Move";
-import {Board} from "../Board";
+import {Board} from "../Board/Board";
 import {PieceType} from "../Enums/PieceType";
 
 export class Pawn extends Piece

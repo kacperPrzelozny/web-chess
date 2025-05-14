@@ -18,4 +18,8 @@ export class Rook extends Piece
     generatePieceName(): string {
         return super.generatePieceName() + Rook.NAME;
     }
+
+    generateScoreboardNotation(): string {
+        return "R" + super.generateScoreboardNotation();
+    }
 }

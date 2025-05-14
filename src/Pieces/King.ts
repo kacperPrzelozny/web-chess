@@ -1,7 +1,7 @@
 import {Piece} from "./Piece";
 import {ColorType} from "../Enums/Colors";
 import {Move} from "../Moves/Move";
-import {Board} from "../Board";
+import {Board} from "../Board/Board";
 import {PieceType} from "../Enums/PieceType";
 
 export class King extends Piece
@@ -25,7 +25,8 @@ export class King extends Piece
         moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 1], this.position.y - 1, false, false, true, true, false, true));
 
         if (!this.hasAlreadyMoved) {
-            moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 2], this.position.y, false, false, false, true, false, true, true));
+            const smallCastle = new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) + 2], this.position.y, false, false, false, true, false, true, true)
+            smallCastle.isSmallCastling = true;
             moves.push(new Move(Board.xAxis[Board.xAxis.indexOf(this.position.x) - 2], this.position.y, false, false, false, true, false, true, true));
         }
 
@@ -34,5 +35,9 @@ export class King extends Piece
 
     generatePieceName(): string {
         return super.generatePieceName() + King.NAME;
+    }
+
+    generateScoreboardNotation(): string {
+        return "K" + super.generateScoreboardNotation();
     }
 }

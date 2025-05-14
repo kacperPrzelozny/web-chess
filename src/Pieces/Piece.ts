@@ -1,7 +1,7 @@
 import {Position} from "../Utils/Position";
 import {ColorType} from "../Enums/Colors";
 import {Move} from "../Moves/Move";
-import {Board} from "../Board";
+import {Board} from "../Board/Board";
 import {PieceType} from "../Enums/PieceType";
 
 export abstract class Piece
@@ -112,5 +112,10 @@ export abstract class Piece
 
     public canMoveInLShape(): boolean {
         return this.type === PieceType.Knight;
+    }
+
+    public generateScoreboardNotation(): string
+    {
+        return this.position.x.toLowerCase() + this.position.y.toString()
     }
 }

@@ -4,7 +4,7 @@ import {Move} from "./Move";
 import {MoveChecker} from "./MoveChecker";
 import {ColorType} from "../Enums/Colors";
 import {PieceFinder} from "../PieceFinder/PieceFinder";
-import {Board} from "../Board";
+import {Board} from "../Board/Board";
 import {MoveRegistry} from "./History/MoveRegistry";
 import {CheckAnalyzer} from "../Rules/CheckAnalyzer";
 import {Position} from "../Utils/Position";

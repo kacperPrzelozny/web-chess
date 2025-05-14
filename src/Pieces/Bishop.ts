@@ -18,4 +18,8 @@ export class Bishop extends Piece
     generatePieceName(): string {
         return super.generatePieceName() + Bishop.NAME;
     }
+
+    generateScoreboardNotation(): string {
+        return "B" + super.generateScoreboardNotation();
+    }
 }

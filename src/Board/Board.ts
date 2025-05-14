@@ -1,15 +1,16 @@
-import {Piece} from "./Pieces/Piece";
-import {ColorType} from "./Enums/Colors";
-import {MoveManager} from "./Moves/MoveManager";
-import {Move} from "./Moves/Move";
+import {Piece} from "../Pieces/Piece";
+import {ColorType} from "../Enums/Colors";
+import {MoveManager} from "../Moves/MoveManager";
+import {Move} from "../Moves/Move";
 import {BoardDrawer} from "./BoardDrawer";
-import {PieceType} from "./Enums/PieceType";
-import {MoveHistory} from "./Moves/History/MoveHistory";
-import {MoveRegistry} from "./Moves/History/MoveRegistry";
-import {Position} from "./Utils/Position";
-import {AudioPlayer} from "./Utils/AudioPlayer";
-import {SituationType} from "./Enums/SituationType";
-import {PieceFactory} from "./PieceFactory/PieceFactory";
+import {PieceType} from "../Enums/PieceType";
+import {MoveHistory} from "../Moves/History/MoveHistory";
+import {MoveRegistry} from "../Moves/History/MoveRegistry";
+import {Position} from "../Utils/Position";
+import {AudioPlayer} from "../Utils/AudioPlayer";
+import {SituationType} from "../Enums/SituationType";
+import {PieceFactory} from "../PieceFactory/PieceFactory";
+import {Scoreboard} from "../Scoreboard/Scoreboard";
 
 export class Board
 {
@@ -23,13 +24,17 @@ export class Board
     public moveHistory: MoveHistory;
     public boardDrawer: BoardDrawer;
     public audioPlayer: AudioPlayer;
+    public scoreboard: Scoreboard;
 
     public constructor() {
         this.createInitialPosition()
+
         this.moveManager = new MoveManager(this.pieces);
         this.moveHistory = new MoveHistory();
         this.boardDrawer = new BoardDrawer();
         this.audioPlayer = new AudioPlayer();
+        this.scoreboard  = new Scoreboard();
+
         this.buildChessBoard()
         this.audioPlayer.playSoundOnGameStart()
     }
@@ -56,6 +61,7 @@ export class Board
             }
         }
         const situationType = board.movePiece(piece, move);
+        board.scoreboard.updateScoreboard(move, piece, null)
 
         switch (situationType) {
             case SituationType.Check:
@@ -74,6 +80,7 @@ export class Board
         const newPiece = board.promotePawn(piece, pieceType)
 
         const situationType = board.movePiece(newPiece, move);
+        board.scoreboard.updateScoreboard(move, piece, pieceType)
 
         switch (situationType) {
             case SituationType.Check:

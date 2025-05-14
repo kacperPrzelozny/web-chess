@@ -1,5 +1,7 @@
 export class Move
 {
+    isSmallCastling: boolean = false;
+
     constructor(
         public x: string,
         public y: number,

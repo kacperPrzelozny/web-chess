@@ -18,4 +18,8 @@ export class Queen extends Piece
     generatePieceName(): string {
         return super.generatePieceName() + Queen.NAME;
     }
+
+    generateScoreboardNotation(): string {
+        return "Q" + super.generateScoreboardNotation();
+    }
 }

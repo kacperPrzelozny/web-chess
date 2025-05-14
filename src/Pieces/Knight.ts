@@ -1,7 +1,7 @@
 import {Piece} from "./Piece";
 import {ColorType} from "../Enums/Colors";
 import {Move} from "../Moves/Move";
-import {Board} from "../Board";
+import {Board} from "../Board/Board";
 import {PieceType} from "../Enums/PieceType";
 
 export class Knight extends Piece
@@ -29,5 +29,9 @@ export class Knight extends Piece
 
     generatePieceName(): string {
         return super.generatePieceName() + Knight.NAME;
+    }
+
+    generateScoreboardNotation(): string {
+        return "N" + super.generateScoreboardNotation();
     }
 }

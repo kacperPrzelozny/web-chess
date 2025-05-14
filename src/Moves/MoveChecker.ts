@@ -1,5 +1,5 @@
 import {Move} from "./Move";
-import {Board} from "../Board";
+import {Board} from "../Board/Board";
 import {Piece} from "../Pieces/Piece";
 import {PieceFinder} from "../PieceFinder/PieceFinder";
 import {PieceType} from "../Enums/PieceType";

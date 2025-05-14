@@ -1,8 +1,8 @@
 export enum PieceType {
-    Pawn = "pawn",
-    Bishop = "bishop",
-    Knight = "knight",
-    Rook = "rook",
-    Queen = "queen",
-    King = "king",
+    Pawn = "",
+    Bishop = "B",
+    Knight = "N",
+    Rook = "R",
+    Queen = "Q",
+    King = "K",
 }

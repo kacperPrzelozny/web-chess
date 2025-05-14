@@ -1,10 +1,10 @@
 import {Board} from "./Board";
-import {Move} from "./Moves/Move";
-import {Piece} from "./Pieces/Piece";
-import {PieceType} from "./Enums/PieceType";
-import {ColorType} from "./Enums/Colors";
-import {Pawn} from "./Pieces/Pawn";
-import {PieceFactory} from "./PieceFactory/PieceFactory";
+import {Move} from "../Moves/Move";
+import {Piece} from "../Pieces/Piece";
+import {PieceType} from "../Enums/PieceType";
+import {ColorType} from "../Enums/Colors";
+import {Pawn} from "../Pieces/Pawn";
+import {PieceFactory} from "../PieceFactory/PieceFactory";
 
 export class BoardDrawer
 {

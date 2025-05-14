@@ -3,7 +3,7 @@ import {Piece} from "../Pieces/Piece";
 import {PieceFinder} from "../PieceFinder/PieceFinder";
 import {PieceType} from "../Enums/PieceType";
 import {King} from "../Pieces/King";
-import {Board} from "../Board";
+import {Board} from "../Board/Board";
 import {Move} from "../Moves/Move";
 import {MoveManager} from "../Moves/MoveManager";
 import {Position} from "../Utils/Position";
